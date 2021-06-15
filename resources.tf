@@ -15,7 +15,7 @@ resource "azurerm_app_service_plan" "plan" {
   tags = merge(local.default_tags, var.extra_tags)
 }
 
-module "diagnostics" {
+/* module "diagnostics" {
   source  = "claranet/diagnostic-settings/azurerm"
   version = "4.0.1"
 
@@ -24,4 +24,4 @@ module "diagnostics" {
   log_categories        = var.logs_categories
   metric_categories     = var.logs_metrics_categories
   retention_days        = var.logs_retention_days
-}
+} */
