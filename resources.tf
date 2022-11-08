@@ -1,27 +1,17 @@
-resource "azurerm_app_service_plan" "plan" {
-  name = substr(local.app_service_plan_name, 0, length(local.app_service_plan_name) > 60 ? 59 : -1)
+resource "azurerm_service_plan" "plan" {
+  name = var.name
 
   location            = var.location
   resource_group_name = var.resource_group_name
-  kind                = var.kind
-  reserved            = var.kind == "Linux" ? true : var.reserved
 
-  sku {
-    capacity = lookup(var.sku, "capacity", local.default_sku_capacity)
-    size     = lookup(var.sku, "size", null)
-    tier     = lookup(var.sku, "tier", null)
-  }
+  os_type  = var.os_type
+  sku_name = var.sku_name
 
-  tags = merge(local.default_tags, var.extra_tags)
+  worker_count                 = var.sku_name == "Y1" ? null : var.worker_count
+  maximum_elastic_worker_count = var.maximum_elastic_worker_count
+
+  app_service_environment_id = var.app_service_environment_id
+  per_site_scaling_enabled   = var.per_site_scaling_enabled
+
+  tags = var.tags
 }
-
-/* module "diagnostics" {
-  source  = "claranet/diagnostic-settings/azurerm"
-  version = "4.0.1"
-
-  resource_id           = azurerm_app_service_plan.plan.id
-  logs_destinations_ids = var.logs_destinations_ids
-  log_categories        = var.logs_categories
-  metric_categories     = var.logs_metrics_categories
-  retention_days        = var.logs_retention_days
-} */
