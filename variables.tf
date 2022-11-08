@@ -10,8 +10,7 @@ variable "resource_group_name" {
 
 variable "name" {
   type        = string
-  description = "(Optional) The name which should be used for this Service Plan. Changing this forces a new AppService to be created"
-  default     = ""
+  description = "(Required) The name which should be used for this Service Plan. Changing this forces a new AppService to be created"
 }
 
 variable "os_type" {
